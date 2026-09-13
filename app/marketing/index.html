@@ -65,9 +65,27 @@
                     class="mobile-menu-button"
                     aria-label="Open navigation menu"
                     aria-expanded="false"
+                    aria-controls="mobile-menu-panel"
                 >
                     <img src="assets/icons/hamburger.svg" alt="" aria-hidden="true" />
                 </button>
+            </div>
+
+            <div id="mobile-menu-panel" class="mobile-menu-panel" aria-label="Mobile navigation">
+                <nav class="mobile-nav" aria-label="Mobile navigation links">
+                    <a href="#products" class="mobile-nav-link">Products</a>
+                    <a href="#solutions" class="mobile-nav-link">Solutions</a>
+                    <a href="#resources" class="mobile-nav-link">Resources</a>
+                    <a href="#pricing" class="mobile-nav-link">Pricing</a>
+                </nav>
+
+                <div class="mobile-menu-actions">
+                    <a href="#login" class="login-link mobile-login-link">Log in</a>
+                    <a href="#get-started" class="button button-primary button-header">
+                        <span>Get Started</span>
+                        <img src="assets/icons/arrow-right-white.svg" alt="" class="button-icon" aria-hidden="true" />
+                    </a>
+                </div>
             </div>
         </header>
 
@@ -75,14 +93,14 @@
             <!-- HERO -->
             <section class="hero-section" aria-labelledby="hero-title">
                 <picture class="hero-image">
-                    <source media="(max-width: 768px)" srcset="assets/images/home/hero/school-admin-right.png" />
+                    <source media="(max-width: 768px)" srcset="assets/images/home/hero/school-admin-right.avif" />
                     <source
                         media="(max-width: 1200px)"
-                        srcset="assets/images/home/hero/school-admin-tablet-unused.png"
+                        srcset="assets/images/home/hero/school-admin-tablet-unused.avif"
                     />
 
                     <img
-                        src="assets/images/home/hero/school-admin-main.png"
+                        src="assets/images/home/hero/school-admin-main.avif"
                         alt="School administrator managing school operations"
                     />
                 </picture>
@@ -351,9 +369,9 @@
             <section class="cta-section" id="get-started" aria-labelledby="cta-title">
                 <!-- Responsive CTA Background -->
                 <picture class="cta-image">
-                    <source media="(max-width: 768px)" srcset="assets/images/home/cta/school-students-mobile.png" />
+                    <source media="(max-width: 768px)" srcset="assets/images/home/cta/school-students-mobile.avif" />
 
-                    <img src="assets/images/home/cta/school-students.png" alt="" loading="lazy" />
+                    <img src="assets/images/home/cta/school-students.avif" alt="" loading="lazy" />
                 </picture>
 
                 <div class="cta-overlay" aria-hidden="true"></div>
@@ -446,5 +464,39 @@
                 </div>
             </div>
         </footer>
+
+        <script>
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+
+            if (mobileMenuButton && mobileMenuPanel) {
+                const closeMenu = () => {
+                    mobileMenuPanel.classList.remove('is-open');
+                    mobileMenuButton.classList.remove('is-open');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenuButton.setAttribute('aria-label', 'Open navigation menu');
+                };
+
+                const toggleMenu = () => {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded));
+                    mobileMenuButton.setAttribute('aria-label', isExpanded ? 'Open navigation menu' : 'Close navigation menu');
+                    mobileMenuPanel.classList.toggle('is-open', !isExpanded);
+                    mobileMenuButton.classList.toggle('is-open', !isExpanded);
+                };
+
+                mobileMenuButton.addEventListener('click', toggleMenu);
+
+                mobileMenuPanel.querySelectorAll('a').forEach((link) => {
+                    link.addEventListener('click', closeMenu);
+                });
+
+                document.addEventListener('click', (event) => {
+                    if (!mobileMenuPanel.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                        closeMenu();
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
